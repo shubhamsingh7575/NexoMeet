@@ -1,6 +1,8 @@
-const server = {
-    dev: 'http://localhost:8000',
-    // prod: 'https://nexomeet.onrender.com'
-}
+let IS_PROD = true;
+const server = IS_PROD ?
+    "https://nexomeet-b.onrender.com":
 
-export default server;  
+    "http://localhost:8000"
+
+
+export default server;
