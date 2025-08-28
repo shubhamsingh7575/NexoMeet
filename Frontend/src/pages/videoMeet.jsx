@@ -29,6 +29,7 @@ export default function VideoMeetComponent() {
     let socketIdRef = useRef();
 
     let localVideoref = useRef();
+   
 
     let [videoAvailable, setVideoAvailable] = useState(true);
 
@@ -491,7 +492,7 @@ export default function VideoMeetComponent() {
 
                             <div className={styles.chattingArea}>
                                 <TextField value={message} onChange={(e) => setMessage(e.target.value)} id="outlined-basic" label="Enter Your chat" variant="outlined" />
-                                <Button variant='contained' onClick={sendMessage}>Send</Button>
+                                <Button  variant='contained' onClick={sendMessage}>Send</Button>
                             </div>
 
 

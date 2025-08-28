@@ -1,7 +1,7 @@
 .meetVideoContainer {
     position: relative;
     height: 100vh;
-    background: rgb(1, 4, 48);
+    background:#0a0a2a;
 }
 
 .meetUserVideo {
@@ -9,7 +9,7 @@
     bottom: 10vh;
     height: 20vh;
     width: auto;
-    left: 0;
+    right: 470px;
     border-radius: 20px;
 }
 
@@ -33,8 +33,8 @@
 }
 
 .conferenceView  video {
-    width: 40vw;
-    height: 20vh;
+    width: 20vw;
+    height: 50vh;
     min-width: 30vw;
     border-radius: 10px;
 }
@@ -56,6 +56,7 @@
 
 
 .chattingArea {
+    gap: 10px;
     position: absolute;
     bottom: 0;
 }

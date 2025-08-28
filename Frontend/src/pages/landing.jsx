@@ -10,7 +10,7 @@ export default function LandingPage() {
         <div className='landingPageContainer'>
             <nav>
                 <div className='navHeader'>
-                    <h2 >Nexo Meet</h2>
+                    <h2 >NexoMeet</h2>
                 </div>
                 <div className='navlist'>
                     <p onClick={() => {

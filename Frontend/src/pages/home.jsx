@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import withAuth from '../utils/withAuth'
 import { useNavigate } from 'react-router-dom'
 import "../App.css";
-import { Button, IconButton, TextField } from '@mui/material';
+import { Button, colors, IconButton, TextField } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -26,7 +26,7 @@ function HomeComponent() {
 
                 <div style={{ display: "flex", alignItems: "center" }}>
 
-                    <h2>Nexo Meet</h2>
+                    <h2 >NexoMeet</h2>
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -38,6 +38,7 @@ function HomeComponent() {
                         <RestoreIcon />
                     </IconButton>
                     <p>History</p>
+                    
 
                     <Button onClick={() => {
                         localStorage.removeItem("token")
@@ -55,11 +56,14 @@ function HomeComponent() {
                 <div className="leftPanel">
                     <div>
                         <h2>Where Every Video Call Feels Like Face-to-Face</h2>
+                        <br />
+                        <p>Connect with your loved ones, no matter the distance. Experience seamless video calls that bring you closer together.</p>
+                        <br />
 
-                        <div style={{ display: 'flex', gap: "10px" }}>
+                        <div style={{ display: 'flex', gap: "10px" ,}}>
 
                             <TextField onChange={e => setMeetingCode(e.target.value)} id="outlined-basic" label="Meeting Code" variant="outlined" />
-                            <Button onClick={handleJoinVideoCall} variant='contained'>Join</Button>
+                            <Button onClick={handleJoinVideoCall} variant='contained' >Join</Button>
 
                         </div>
                     </div>
