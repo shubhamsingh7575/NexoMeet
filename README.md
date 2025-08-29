@@ -1,6 +1,11 @@
 # 🚀 NexoMeet  
 
-NexoMeet is a **full-stack video conferencing application** similar to Zoom, built using **React (frontend)** and **Node.js/Express (backend)**. It enables **real-time video calls, chat, screen sharing, and user authentication** with a responsive UI.  
+NexoMeet is a **full-stack video conferencing application** similar to Zoom, built using **React (frontend)** and **Node.js/Express (backend)**.  
+It enables **real-time video calls, chat, screen sharing, and user authentication** with a responsive UI.  
+
+🌐 **Live Demo**: [NexoMeet Deployment](https://nexomeet-f.onrender.com)  
+
+---
 
 ## ✨ Features  
 
@@ -116,6 +121,24 @@ Build output will be in `Frontend/dist/`.
 
 ---
 
+## 🔍 How It Works  
+
+### **WebRTC (Web Real-Time Communication)**  
+WebRTC enables **peer-to-peer video and audio streaming** directly between users’ browsers.  
+- Handles **camera/microphone access**  
+- Supports **screen sharing**  
+- Provides **low-latency communication** without external plugins  
+
+### **Socket.IO**  
+Socket.IO is used for **real-time signaling** between peers:  
+- Establishes a connection channel between users and the server  
+- Shares **session descriptions (SDP)** and **ICE candidates**  
+- Keeps track of **user joins, leaves, and chat messages**  
+
+Together, **WebRTC** handles the actual media streaming, while **Socket.IO** manages the signaling and messaging.  
+
+---
+
 ## 🛠️ Future Enhancements  
 
 - 📱 Mobile app version (React Native).  
@@ -128,3 +151,5 @@ Build output will be in `Frontend/dist/`.
 ## 👨‍💻 Author  
 
 **Shubham Singh**  
+
+🌐 [Live Demo](https://nexomeet-f.onrender.com)  
