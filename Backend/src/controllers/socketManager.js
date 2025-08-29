@@ -109,7 +109,6 @@ export const connectToSocket = (server) => {
 
         })
 
-
     })
 
 
