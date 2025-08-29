@@ -2,7 +2,8 @@ import express from "express";
 import {createServer} from "node:http";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
-
+import dotenv from "dotenv";
+dotenv.config();
 import { connectToSocket } from "./controllers/socketManager.js";
 import cors from "cors";
 
@@ -28,7 +29,7 @@ app.use("/api/v1/users", userRoutes);
 
 const start = async()=>{
     app.set("mongo_user");
-    const connectionDb = await mongoose.connect("mongodb+srv://ShubhamX:Shubham4545@cluster0.gliqeyt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+    const connectionDb = await mongoose.connect(process.env.MONGODB_URI);
     console.log(`MONGO Connected to DB HOST: ${connectionDb.connection.host}`);
     
     server.listen(app.get("port"), () => {
