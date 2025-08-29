@@ -6,10 +6,11 @@
 
 .meetUserVideo {
     position: absolute;
-    bottom: 10vh;
-    height: 20vh;
+    bottom: 3vh;
+    height: 25vh;
+
     width: auto;
-    right: 500px;
+    left: 10px;
     border-radius: 20px;
 }
 
