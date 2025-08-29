@@ -1,93 +1,130 @@
-# NexoMeet
+# 🚀 NexoMeet  
 
-NexoMeet is a full-stack video meeting application built with React (frontend) and Node.js/Express (backend), featuring real-time video calls, chat, and user authentication.
+NexoMeet is a **full-stack video conferencing application** similar to Zoom, built using **React (frontend)** and **Node.js/Express (backend)**. It enables **real-time video calls, chat, screen sharing, and user authentication** with a responsive UI.  
 
-## Features
+## ✨ Features  
 
-- **Video Meetings:** Peer-to-peer video calls using WebRTC and Socket.IO.
-- **Chat:** Real-time messaging during meetings.
-- **User Authentication:** Register and login with username and password.
-- **Meeting History:** View your past meeting codes and dates.
-- **Responsive UI:** Built with Material UI and custom CSS.
+- 🎥 **Video Meetings** – Peer-to-peer video calls powered by **WebRTC** and **Socket.IO**.  
+- 💬 **Real-time Chat** – In-meeting chat with message notifications.  
+- 🔐 **Authentication** – Secure login & registration using **JWT tokens**.  
+- 🕑 **Meeting History** – Track past meetings with codes and timestamps.  
+- 🖥️ **Screen Sharing** – Share your screen using the **Navigator API (getDisplayMedia)**.  
+- 📡 **STUN Server Integration** – Uses Google’s public STUN server for peer discovery.  
+- 📱 **Responsive UI** – Built with **Material UI** and custom CSS for desktop & mobile.  
 
-## Project Structure
+---
+
+## 🏗️ Tech Stack  
+
+### **Frontend**  
+- React (Vite)  
+- Material UI  
+- WebRTC APIs  
+- Socket.IO Client  
+
+### **Backend**  
+- Node.js + Express  
+- MongoDB (Mongoose)  
+- Socket.IO  
+- JWT Authentication  
+
+---
+
+## 📂 Project Structure  
 
 ```
 Frontend/
-  ├── public/           # Static assets (images, icons)
+  ├── public/           # Static assets (icons, logos)
   ├── src/
   │   ├── pages/        # React pages (Landing, Auth, Home, VideoMeet, History)
-  │   ├── contexts/     # AuthContext for user state and API calls
-  │   ├── utils/        # Utility functions (withAuth HOC)
+  │   ├── contexts/     # AuthContext for JWT-based authentication
+  │   ├── utils/        # Utility functions (withAuth HOC, API helpers)
   │   ├── styles/       # CSS modules
-  │   └── App.jsx       # Main app component
+  │   └── App.jsx       # Main React entry
   ├── index.html        # Entry point
-  ├── vite.config.js    # Vite configuration
-  └── package.json      # Frontend dependencies and scripts
+  ├── vite.config.js    # Vite config
+  └── package.json      # Frontend dependencies
 
 Backend/
   ├── src/
-  │   ├── controllers/  # Express controllers (user, socketManager)
-  │   ├── models/       # Mongoose models (User, Meeting)
-  │   ├── routes/       # Express routes (user.routes.js)
-  │   └── app.js        # Backend entry point
-  └── package.json      # Backend dependencies and scripts
+  │   ├── controllers/  # Express controllers (auth, socket manager)
+  │   ├── models/       # MongoDB models (User, Meeting)
+  │   ├── routes/       # REST API routes
+  │   └── app.js        # Server entry point
+  └── package.json      # Backend dependencies
 ```
 
-## Getting Started
+---
 
-### Prerequisites
+## ⚡ Getting Started  
 
-- Node.js (v18+ recommended)
-- npm
+### 🔹 Prerequisites  
+- Node.js **v18+**  
+- npm  
+- MongoDB (Atlas or local instance)  
 
-### Backend Setup
+---
 
-1. Install dependencies:
-   ```sh
-   cd Backend
-   npm install
-   ```
-2. Configure MongoDB connection in `src/app.js` (uses MongoDB Atlas by default).
-3. Start the backend server:
-   ```sh
-   npm run dev
-   ```
-   The backend runs on port `8000` by default.
+### 🔹 Backend Setup  
 
-### Frontend Setup
+```sh
+cd Backend
+npm install
+npm run dev
+```
+👉 Runs at **http://localhost:8000** by default.  
 
-1. Install dependencies:
-   ```sh
-   cd Frontend
-   npm install
-   ```
-2. Start the frontend development server:
-   ```sh
-   npm run dev
-   ```
-   The frontend runs on port `5173` by default (Vite).
+---
 
-### Build for Production
+### 🔹 Frontend Setup  
+
+```sh
+cd Frontend
+npm install
+npm run dev
+```
+👉 Runs at **http://localhost:5173** (Vite).  
+
+---
+
+### 🔹 Build for Production  
 
 ```sh
 cd Frontend
 npm run build
 ```
-Output is in the `Frontend/build` directory.
-
-## Environment Configuration
-
-- The frontend uses [`src/environment.js`](src/environment.js) to switch between production and local backend URLs.
-- Update the MongoDB connection string in [`Backend/src/app.js`](Backend/src/app.js) as needed.
-
-## Usage
-
-- Visit the landing page to register or login.
-- Join meetings by entering a meeting code.
-- View meeting history from the home page.
-- Use chat during video calls.
+Build output will be in `Frontend/dist/`.  
 
 ---
 
-**Author:** Shubham Singh
+## ⚙️ Environment Configuration  
+
+- **Frontend** – API base URL is managed in `src/environment.js`.  
+- **Backend** – Update MongoDB connection in `Backend/src/app.js`.  
+- **Auth** – JWT tokens are used for secure authentication & session management.  
+
+---
+
+## 📌 Usage  
+
+1. Register or Login to your account.  
+2. Create or Join a meeting with a unique code.  
+3. Use video + audio calls with WebRTC.  
+4. Share your screen with the **Screen Share** button.  
+5. Chat with participants in real-time.  
+6. End the meeting – details get saved in **Meeting History**.  
+
+---
+
+## 🛠️ Future Enhancements  
+
+- 📱 Mobile app version (React Native).  
+- 📊 Analytics dashboard for meetings.  
+- 🎙️ Background noise suppression.  
+- 📡 Custom TURN server for better connectivity.  
+
+---
+
+## 👨‍💻 Author  
+
+**Shubham Singh**  
