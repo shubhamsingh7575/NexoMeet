@@ -61,3 +61,40 @@
     position: absolute;
     bottom: 0;
 }
+.chattingDisplay {
+  height: 70vh;        
+  overflow-y: auto;     
+  padding: 10px;
+  border: 1px solid #ccc; 
+  background: #fff;     
+  display: flex;
+  flex-direction: column;
+}
+
+.myMessage {
+  background-color: #DCF8C6; /* light green (WhatsApp style) */
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin: 5px 0;
+  align-self: flex-end;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.otherMessage {
+  background-color: #FFFFFF; /* white */
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin: 5px 0;
+  align-self: flex-start;
+  max-width: 70%;
+  word-wrap: break-word;
+  border: 1px solid #eee;
+}
+
+.sender {
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 3px;
+}

@@ -71,6 +71,12 @@ export default function VideoMeetComponent() {
 
     })
 
+    const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
+
     let getDislayMedia = () => {
         if (screen) {
             if (navigator.mediaDevices.getDisplayMedia) {
@@ -474,19 +480,21 @@ export default function VideoMeetComponent() {
                         <div className={styles.chatContainer}>
                             <h1>Chat</h1>
 
-                            <div className={styles.chattingDisplay}>
+                           <div className={styles.chattingDisplay}>
 
                                 {messages.length !== 0 ? messages.map((item, index) => {
 
-                                    console.log(messages)
-                                    return (
-                                        <div style={{ marginBottom: "20px" }} key={index}>
-                                            <p style={{ fontWeight: "bold" }}>{item.sender}</p>
-                                            <p>{item.data}</p>
-                                        </div>
-                                    )
-                                }) : <p>No Messages Yet</p>}
+                                const isMe = item.sender === username;
 
+                                // console.log(messages)
+                                    return (
+                                    <div style={{ marginBottom: "20px" }} key={index} className={isMe ? styles.myMessage : styles.otherMessage}>
+                                    <p style={{ fontWeight: "bold" }} className={styles.sender}>{item.sender}</p>
+                                    <p>{item.data}</p>
+                                    </div>
+                                 )
+                                    }) : <p>No Messages Yet</p>}
+                                <div ref={messagesEndRef} />
 
                             </div>
 
