@@ -1,6 +1,6 @@
 # 🚀 NexoMeet  
 
-A full-stack video conferencing web application with real-time video/audio calls, chat, and screen sharing. Built with modern technologies to deliver a seamless and secure communication experience.  
+A scalable full-stack video conferencing platform featuring WebRTC-powered video/audio calls, screen sharing, live chat, and meeting management. Secure authentication and a robust backend ensure smooth collaboration.
 
 🌐 **Live Demo**: [NexoMeet Deployment](https://nexomeet-f.onrender.com)  
 
