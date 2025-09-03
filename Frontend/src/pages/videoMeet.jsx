@@ -12,6 +12,7 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
 import server from '../environment';
+import SendIcon from '@mui/icons-material/Send';
 
 const server_url = server;
 
@@ -29,7 +30,7 @@ export default function VideoMeetComponent() {
     let socketIdRef = useRef();
 
     let localVideoref = useRef();
-   
+
 
     let [videoAvailable, setVideoAvailable] = useState(true);
 
@@ -74,7 +75,7 @@ export default function VideoMeetComponent() {
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
-         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
     let getDislayMedia = () => {
@@ -446,7 +447,7 @@ export default function VideoMeetComponent() {
         // this.setState({ message: "", sender: username })
     }
 
-    
+
     let connect = () => {
         setAskForUsername(false);
         getMedia();
@@ -458,11 +459,29 @@ export default function VideoMeetComponent() {
 
             {askForUsername === true ?
 
-                <div>
+                <div className='navBar'>
 
 
                     <h2>Enter into Lobby </h2>
-                    <TextField id="outlined-basic" label="Username" value={username} onChange={e => setUsername(e.target.value)} variant="outlined" />
+                    <TextField
+                        id="outlined-basic"
+                        label="Username"
+                        value={username}
+                        variant="outlined"
+                        onChange={e => setUsername(e.target.value)}
+                        InputProps={{
+                            style: {
+                                color: "#ffffff",
+                                backgroundColor: "#2c3e50",
+                                borderRadius: "8px"
+                            }
+                        }}
+                        InputLabelProps={{
+                            style: {
+                                color: "#e0e0e0"
+                            }
+                        }}
+                    />
                     <Button variant="contained" onClick={connect}>Connect</Button>
 
 
@@ -480,27 +499,47 @@ export default function VideoMeetComponent() {
                         <div className={styles.chatContainer}>
                             <h1>Chat</h1>
 
-                           <div className={styles.chattingDisplay}>
+                            <div className={styles.chattingDisplay}>
 
                                 {messages.length !== 0 ? messages.map((item, index) => {
 
-                                const isMe = item.sender === username;
+                                    const isMe = item.sender === username;
 
-                                // console.log(messages)
+                                    // console.log(messages)
                                     return (
-                                    <div style={{ marginBottom: "20px" }} key={index} className={isMe ? styles.myMessage : styles.otherMessage}>
-                                    <p style={{ fontWeight: "bold" }} className={styles.sender}>{item.sender}</p>
-                                    <p>{item.data}</p>
-                                    </div>
-                                 )
-                                    }) : <p>No Messages Yet</p>}
+                                        <div style={{ marginBottom: "20px" }} key={index} className={isMe ? styles.myMessage : styles.otherMessage}>
+                                            <p style={{ fontWeight: "bold" }} className={styles.sender}>{item.sender}</p>
+                                            <p>{item.data}</p>
+                                        </div>
+                                    )
+                                }) : <p>No Messages Yet</p>}
                                 <div ref={messagesEndRef} />
 
                             </div>
 
                             <div className={styles.chattingArea}>
-                                <TextField value={message} onChange={(e) => setMessage(e.target.value)} id="outlined-basic" label="Enter Your chat" variant="outlined" />
-                                <Button  variant='contained' onClick={sendMessage}>Send</Button>
+                                <TextField
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    id="outlined-basic"
+                                    label="Type a message..."
+                                    variant="outlined"
+                                    className={styles.chatInput}
+                                    InputProps={{
+                                        style: { color: "black" }
+                                    }}
+                                    InputLabelProps={{
+                                        style: { color: "#bbb" }
+                                    }}
+                                />
+                                <Button
+                                    variant="contained"
+                                    onClick={sendMessage}
+                                    className={styles.sendButton}
+                                    endIcon={<SendIcon />}
+                                >
+                                    Send
+                                </Button>
                             </div>
 
 
@@ -513,7 +552,7 @@ export default function VideoMeetComponent() {
                             {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
                         </IconButton>
                         <IconButton onClick={handleEndCall} style={{ color: "red" }}>
-                            <CallEndIcon  />
+                            <CallEndIcon />
                         </IconButton>
                         <IconButton onClick={handleAudio} style={{ color: "white" }}>
                             {audio === true ? <MicIcon /> : <MicOffIcon />}

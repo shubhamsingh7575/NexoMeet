@@ -1,3 +1,12 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0d1b2a, #1b263b, #0a192f); 
+  color: #ffffff;
+}
+
+
+
 .landingPageContainer {
   width: 100vw;
   height: 100vh;
@@ -60,20 +69,34 @@
   width: auto;
 }
 
-.navBar {
+/* .navBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-inline: 20px;
   text-align: center;
 
+} */
+
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;   
+  margin-top: 10px;    
 }
+
 .meetContainer {
   display: flex;
-  padding-inline: 20px;
+   /*padding-inline: 20px;
   height: 80vh;
   gap: 10vw;
-  justify-content: center;
+  justify-content: center; */
+  justify-content: space-between;
+  align-items: center;
+  height: 90vh;
+  padding: 0 5vw;
+
 }
 
 
@@ -85,13 +108,17 @@
 
 }
 
+.leftPanel h2 {
+  color: #e0e0e0; 
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
 .rightPanel {
   display: flex;
   align-items: center;
 }
 
-.rightPanel > img {
-  width: 30vw;
-  height: auto;
-  border-radius: 20px;
+.rightPanel img {
+  width: 400px;
 }

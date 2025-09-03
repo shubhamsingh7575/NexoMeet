@@ -73,6 +73,7 @@
 
 .myMessage {
   background-color: #DCF8C6; /* light green (WhatsApp style) */
+  color: #000000;
   padding: 8px 12px;
   border-radius: 10px;
   margin: 5px 0;
@@ -83,6 +84,7 @@
 
 .otherMessage {
   background-color: #FFFFFF; /* white */
+  color: #000000;
   padding: 8px 12px;
   border-radius: 10px;
   margin: 5px 0;
@@ -93,8 +95,37 @@
 }
 
 .sender {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: bold;
-  color: #555;
+  color: #000000;
   margin-bottom: 3px;
+}
+
+.chattingArea {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.chatInput {
+  flex: 1;
+  
+  background-color: #ffffff;
+  border-radius: 8px;
+ 
+}
+
+.sendButton {
+  background-color: #1976d2;
+  color: white;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.sendButton:hover {
+  background-color: #1258a0;
 }

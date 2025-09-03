@@ -26,24 +26,42 @@ function HomeComponent() {
 
                 <div style={{ display: "flex", alignItems: "center" }}>
 
-                    <h2 >NexoMeet</h2>
+                     <h2  style={{ fontSize: "2.5rem" }}><span style={{ color: "#6b39ffff" }}>Nexo</span>Meet</h2>
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
-                    <IconButton onClick={
-                        () => {
-                            navigate("/history")
-                        }
-                    }>
-                        <RestoreIcon />
-                    </IconButton>
-                    <p>History</p>
+                    <Button
+                        onClick={() => navigate("/history")}
+                        variant="outlined"
+                        startIcon={<RestoreIcon />}
+                        style={{
+                            borderColor: "#1976d2",
+                            color: "#1976d2",
+                            borderRadius: "8px",
+                            padding: "6px 16px",
+                            fontWeight: "bold",
+                            textTransform: "none",
+                            marginRight: "10px"
+                        }}
+                    >
+                        History
+                    </Button>
                     
 
                     <Button onClick={() => {
                         localStorage.removeItem("token")
                         navigate("/auth")
-                    }}>
+                    }}
+                    variant="contained"
+                        style={{
+                            backgroundColor: "#1976d2",
+                            color: "white",
+                            borderRadius: "8px",
+                            padding: "6px 16px",
+                            fontWeight: "bold",
+                            textTransform: "none"
+                        }}
+                    >
                         Logout
                     </Button>
                 </div>
@@ -62,7 +80,25 @@ function HomeComponent() {
 
                         <div style={{ display: 'flex', gap: "10px" ,}}>
 
-                            <TextField onChange={e => setMeetingCode(e.target.value)} id="outlined-basic" label="Meeting Code" variant="outlined" />
+                            <TextField
+                                onChange={e => setMeetingCode(e.target.value)}
+                                id="outlined-basic"
+                                label="Meeting Code"
+                                variant="outlined"
+                                value={meetingCode}
+                                InputProps={{
+                                    style: {
+                                        color: "#ffffff",            
+                                        backgroundColor: "#2c3e50",  
+                                        borderRadius: "8px"
+                                    }
+                                }}
+                                InputLabelProps={{
+                                    style: {
+                                        color: "#e0e0e0"  
+                                    }
+                                }}
+                            />
                             <Button onClick={handleJoinVideoCall} variant='contained' >Join</Button>
 
                         </div>
