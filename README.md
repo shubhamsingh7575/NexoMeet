@@ -1,7 +1,6 @@
 # 🚀 NexoMeet  
 
-NexoMeet is a **full-stack video conferencing application** similar to Zoom, built using **React (frontend)** and **Node.js/Express (backend)**.  
-It enables **real-time video calls, chat, screen sharing, and user authentication** with a responsive UI.  
+A scalable full-stack video conferencing platform featuring WebRTC-powered video/audio calls, screen sharing, live chat, and meeting management. Secure authentication and a robust backend ensure smooth collaboration.
 
 🌐 **Live Demo**: [NexoMeet Deployment](https://nexomeet-f.onrender.com)  
 
