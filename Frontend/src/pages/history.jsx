@@ -6,7 +6,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
-import { Button, IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 
 function History() {
     const { getHistoryOfUser } = useContext(AuthContext);
@@ -23,7 +23,7 @@ function History() {
             }
         };
         fetchHistory();
-        // AuthContext methods are stable for this page lifecycle.
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -46,7 +46,7 @@ function History() {
 
 
     return (
-        <div style={{
+        <div className="historyPage" style={{
             minHeight: "100vh",
             background: "#0a192f",
             padding: "30px"

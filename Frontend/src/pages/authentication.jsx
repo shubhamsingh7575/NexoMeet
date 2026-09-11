@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -14,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AuthContext } from '../contexts/AuthContext';
 import { Snackbar } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 
 const defaultTheme = createTheme();
@@ -62,9 +62,10 @@ export default function Authentication() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh', width: '100vw' }}>
+      <Grid container component="main" className="authPage" sx={{ minHeight: '100vh', width: '100%' }}>
         <CssBaseline />
         <Grid
+          className="authVisual"
           item
           xs={false}
           sm={4}
@@ -82,7 +83,7 @@ export default function Authentication() {
         />
           
         
-        <Grid item xs={12} sm={8} md={5} size={6} component={Paper} elevation={6} square>
+        <Grid className="authFormPanel" item xs={12} sm={8} md={5} size={6} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -92,6 +93,7 @@ export default function Authentication() {
               alignItems: 'center',
             }}
           >
+            <Link className="authBackButton" to="/">← Back to landing</Link>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -105,7 +107,7 @@ export default function Authentication() {
                           </Button>
                </div>
 
-            <Box component="form" noValidate sx={{ mt: 1 }}>
+            <Box className="authForm" component="form" noValidate sx={{ mt: 1 }}>
                             {formState === 1 ? <TextField
                                 margin="normal"
                                 required

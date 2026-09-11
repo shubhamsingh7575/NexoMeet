@@ -50,7 +50,7 @@ function HomeComponent() {
 
                     <Button onClick={() => {
                         localStorage.removeItem("token")
-                        navigate("/auth")
+                        navigate("/")
                     }}
                     variant="contained"
                         style={{

@@ -42,7 +42,7 @@ export default function VideoMeetComponent() {
 
     let [screen, setScreen] = useState();
 
-    let [showModal, setModal] = useState(true);
+    let [showModal, setModal] = useState(false);
 
     let [screenAvailable, setScreenAvailable] = useState();
 
@@ -50,7 +50,7 @@ export default function VideoMeetComponent() {
 
     let [message, setMessage] = useState("");
 
-    let [newMessages, setNewMessages] = useState(3);
+    let [newMessages, setNewMessages] = useState(0);
 
     let [askForUsername, setAskForUsername] = useState(true);
 
@@ -69,8 +69,6 @@ export default function VideoMeetComponent() {
     useEffect(() => {
         console.log("HELLO")
         getPermissions();
-
-        // Permission setup is intentionally performed once per meeting.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -138,8 +136,6 @@ export default function VideoMeetComponent() {
 
         }
 
-
-        // Media callbacks intentionally use the current meeting state.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [video, audio])
     let getMedia = () => {
@@ -405,6 +401,7 @@ export default function VideoMeetComponent() {
         if (screen !== undefined) {
             getDislayMedia();
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen])
     let handleScreen = () => {
@@ -484,7 +481,7 @@ export default function VideoMeetComponent() {
                 </div> :
 
 
-                <div className={styles.meetVideoContainer}>
+                <div className={`${styles.meetVideoContainer} ${showModal ? styles.chatOpen : ""}`}>
 
                     {showModal ? <div className={styles.chatRoom}>
 
