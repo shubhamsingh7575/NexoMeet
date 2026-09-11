@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import io from "socket.io-client";
 import { Badge, IconButton, TextField } from '@mui/material';
 import { Button } from '@mui/material';
@@ -25,6 +26,8 @@ const peerConfigConnections = {
 }
 
 export default function VideoMeetComponent() {
+
+    const navigate = useNavigate();
 
     var socketRef = useRef();
     let socketIdRef = useRef();
@@ -413,7 +416,7 @@ export default function VideoMeetComponent() {
             let tracks = localVideoref.current.srcObject.getTracks()
             tracks.forEach(track => track.stop())
         } catch { /* local stream may already be stopped */ }
-        window.location.href = "/"
+        navigate(localStorage.getItem("token") ? "/home" : "/");
     }
 
     const addMessage = (data, sender, socketIdSender) => {
