@@ -16,7 +16,10 @@ const server = createServer(app);
 const io = connectToSocket(server);
 
 app.set("port", (process.env.PORT || 8000))
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    credentials: true
+}));
 app.use(express.json({ limit: "40kb" }));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
 
@@ -28,12 +31,14 @@ app.use("/api/v1/users", userRoutes);
 // }); 
 
 const start = async()=>{
-    app.set("mongo_user");
+    if (!process.env.MONGODB_URI) {
+        throw new Error("MONGODB_URI is not configured");
+    }
     const connectionDb = await mongoose.connect(process.env.MONGODB_URI);
     console.log(`MONGO Connected to DB HOST: ${connectionDb.connection.host}`);
     
     server.listen(app.get("port"), () => {
-        console.log("Listening on port 8000");
+        console.log(`Listening on port ${app.get("port")}`);
     });
 } 
 

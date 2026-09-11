@@ -1,87 +1,52 @@
 import axios from "axios";
 import httpStatus from "http-status";
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import server from "../environment";
+import { AuthContext } from "./AuthContextValue";
 
-
-export const AuthContext = createContext({});
+export { AuthContext };
 
 const client = axios.create({
     baseURL: `${server}/api/v1/users`
 })
 
+client.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+});
+
 
 export const AuthProvider = ({ children }) => {
 
-    const authContext = useContext(AuthContext);
-
-
-    const [userData, setUserData] = useState(authContext);
+    const [userData, setUserData] = useState({});
 
 
     const router = useNavigate();
 
     const handleRegister = async (name, username, password) => {
-        try {
-            let request = await client.post("/register", {
-                name: name,
-                username: username,
-                password: password
-            })
-
-
-            if (request.status === httpStatus.CREATED) {
-                return request.data.message;
-            }
-        } catch (err) {
-            throw err;
+        const request = await client.post("/register", { name, username, password });
+        if (request.status === httpStatus.CREATED) {
+            return request.data.message;
         }
     }
 
     const handleLogin = async (username, password) => {
-        try {
-            let request = await client.post("/login", {
-                username: username,
-                password: password
-            });
-
-            console.log(username, password)
-            console.log(request.data)
-
-            if (request.status === httpStatus.OK) {
-                localStorage.setItem("token", request.data.token);
-                router("/home")
-            }
-        } catch (err) {
-            throw err;
+        const request = await client.post("/login", { username, password });
+        if (request.status === httpStatus.OK) {
+            localStorage.setItem("token", request.data.token);
+            router("/home");
         }
     }
 
     const getHistoryOfUser = async () => {
-        try {
-            let request = await client.get("/get_all_activity", {
-                params: {
-                    token: localStorage.getItem("token")
-                }
-            });
-            return request.data
-        } catch
-         (err) {
-            throw err;
-        }
+        const request = await client.get("/get_all_activity");
+        return request.data;
     }
 
     const addToUserHistory = async (meetingCode) => {
-        try {
-            let request = await client.post("/add_to_activity", {
-                token: localStorage.getItem("token"),
-                meeting_code: meetingCode
-            });
-            return request
-        } catch (e) {
-            throw e;
-        }
+        return client.post("/add_to_activity", { meeting_code: meetingCode });
     }
 
 

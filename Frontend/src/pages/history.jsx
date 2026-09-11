@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
+import withAuth from '../utils/withAuth';
 import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -7,13 +8,13 @@ import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
 import { Button, IconButton } from '@mui/material';
 
-export default function History() {
+function History() {
     const { getHistoryOfUser } = useContext(AuthContext);
     const [meetings, setMeetings] = useState([]);
     const routeTo = useNavigate();
 
     useEffect(() => {
-        const fetchHistory = async () => {
+        const fetchHistory = async () =>  {
             try {
                 const history = await getHistoryOfUser();
                 setMeetings(history);
@@ -22,6 +23,8 @@ export default function History() {
             }
         };
         fetchHistory();
+        // AuthContext methods are stable for this page lifecycle.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     let formatDate = (dateString) => {
@@ -108,3 +111,6 @@ export default function History() {
         </div>
     );
 }
+
+const ProtectedHistory = withAuth(History);
+export default ProtectedHistory;

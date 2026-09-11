@@ -10,7 +10,7 @@ A scalable full-stack video conferencing platform featuring WebRTC-powered video
 
 - 🎥 **Video Meetings** – Peer-to-peer video calls powered by **WebRTC** and **Socket.IO**.  
 - 💬 **Real-time Chat** – In-meeting chat with message notifications.  
-- 🔐 **Authentication** – Secure login & registration using **JWT tokens**.  
+- 🔐 **Authentication** – Secure login & registration using signed, expiring bearer tokens.
 - 🕑 **Meeting History** – Track past meetings with codes and timestamps.  
 - 🖥️ **Screen Sharing** – Share your screen using the **Navigator API (getDisplayMedia)**.  
 - 📡 **STUN Server Integration** – Uses Google’s public STUN server for peer discovery.  
@@ -105,7 +105,7 @@ Build output will be in `Frontend/dist/`.
 
 - **Frontend** – API base URL is managed in `src/environment.js`.  
 - **Backend** – Update MongoDB connection in `Backend/src/app.js`.  
-- **Auth** – JWT tokens are used for secure authentication & session management.  
+- **Auth** – Signed, expiring bearer tokens are used for authentication & session management.
 
 ---
 

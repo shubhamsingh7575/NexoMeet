@@ -36,7 +36,7 @@ export default function VideoMeetComponent() {
 
     let [audioAvailable, setAudioAvailable] = useState(true);
 
-    let [video, setVideo] = useState([]);
+    let [video, setVideo] = useState(false);
 
     let [audio, setAudio] = useState();
 
@@ -70,7 +70,9 @@ export default function VideoMeetComponent() {
         console.log("HELLO")
         getPermissions();
 
-    })
+        // Permission setup is intentionally performed once per meeting.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const messagesEndRef = useRef(null);
 
@@ -83,7 +85,7 @@ export default function VideoMeetComponent() {
             if (navigator.mediaDevices.getDisplayMedia) {
                 navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
                     .then(getDislayMediaSuccess)
-                    .then((stream) => { })
+                    .then(() => { })
                     .catch((e) => console.log(e))
             }
         }
@@ -137,6 +139,8 @@ export default function VideoMeetComponent() {
         }
 
 
+        // Media callbacks intentionally use the current meeting state.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [video, audio])
     let getMedia = () => {
         setVideo(videoAvailable);
@@ -144,8 +148,6 @@ export default function VideoMeetComponent() {
         connectToSocketServer();
 
     }
-
-
 
 
     let getUserMediaSuccess = (stream) => {
@@ -202,13 +204,13 @@ export default function VideoMeetComponent() {
         if ((video && videoAvailable) || (audio && audioAvailable)) {
             navigator.mediaDevices.getUserMedia({ video: video, audio: audio })
                 .then(getUserMediaSuccess)
-                .then((stream) => { })
+                .then(() => { })
                 .catch((e) => console.log(e))
         } else {
             try {
                 let tracks = localVideoref.current.srcObject.getTracks()
                 tracks.forEach(track => track.stop())
-            } catch (e) { }
+            } catch { /* no active local stream */ }
         }
     }
 
@@ -360,7 +362,7 @@ export default function VideoMeetComponent() {
 
                         try {
                             connections[id2].addStream(window.localStream)
-                        } catch (e) { }
+                        } catch { /* peer may already be closed */ }
 
                         connections[id2].createOffer().then((description) => {
                             connections[id2].setLocalDescription(description)
@@ -403,6 +405,7 @@ export default function VideoMeetComponent() {
         if (screen !== undefined) {
             getDislayMedia();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen])
     let handleScreen = () => {
         setScreen(!screen);
@@ -412,19 +415,8 @@ export default function VideoMeetComponent() {
         try {
             let tracks = localVideoref.current.srcObject.getTracks()
             tracks.forEach(track => track.stop())
-        } catch (e) { }
+        } catch { /* local stream may already be stopped */ }
         window.location.href = "/"
-    }
-
-    let openChat = () => {
-        setModal(true);
-        setNewMessages(0);
-    }
-    let closeChat = () => {
-        setModal(false);
-    }
-    let handleMessage = (e) => {
-        setMessage(e.target.value);
     }
 
     const addMessage = (data, sender, socketIdSender) => {
