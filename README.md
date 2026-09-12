@@ -1,154 +1,215 @@
-# 🚀 NexoMeet  
+# NexoMeet
 
-A scalable full-stack video conferencing platform featuring WebRTC-powered video/audio calls, screen sharing, live chat, and meeting management. Secure authentication and a robust backend ensure smooth collaboration.
+NexoMeet is a full-stack video meeting application for creating and joining meetings with a meeting code. It includes real-time video/audio communication, screen sharing, in-meeting chat, authentication, meeting history, and email invitations through SendGrid.
 
-🌐 **Live Demo**: [NexoMeet Deployment](https://nexomeet-f.onrender.com)  
+## Live demo
 
----
+[Open NexoMeet](https://nexomeet-f.onrender.com/)
 
-## ✨ Features  
+## Features
 
-- 🎥 **Video Meetings** – Peer-to-peer video calls powered by **WebRTC** and **Socket.IO**.  
-- 💬 **Real-time Chat** – In-meeting chat with message notifications.  
-- 🔐 **Authentication** – Secure login & registration using signed, expiring bearer tokens.
-- 🕑 **Meeting History** – Track past meetings with codes and timestamps.  
-- 🖥️ **Screen Sharing** – Share your screen using the **Navigator API (getDisplayMedia)**.  
-- 📡 **STUN Server Integration** – Uses Google’s public STUN server for peer discovery.  
-- 📱 **Responsive UI** – Built with **Material UI** and custom CSS for desktop & mobile.  
+- User registration, login, current-user session check, and logout
+- JWT-based bearer-token authentication
+- Create or join meetings with a meeting code
+- WebRTC video and audio calls
+- Camera, microphone, and screen-share controls
+- Real-time signaling and chat with Socket.IO
+- Meeting history with pagination
+- Delete one meeting or clear the complete meeting history
+- Send meeting invitations by email through SendGrid
+- Responsive React and Material UI interface
 
----
+## Tech stack
 
-## 🏗️ Tech Stack  
+### Frontend
 
-### **Frontend**  
-- React (Vite)  
-- Material UI  
-- WebRTC APIs  
-- Socket.IO Client  
+- React 19, Vite, React Router
+- Material UI and Axios
+- Socket.IO Client
+- Browser WebRTC APIs
 
-### **Backend**  
-- Node.js + Express  
-- MongoDB (Mongoose)  
-- Socket.IO  
-- JWT Authentication  
+### Backend
 
----
+- Node.js and Express 5
+- MongoDB with Mongoose
+- Socket.IO
+- JWT and bcrypt authentication
+- SendGrid Web API for email invitations
 
-## 📂 Project Structure  
+## Project structure
 
+```text
+NexoMeet_project/
+├── Backend/
+│   ├── src/
+│   │   ├── app.js                         # Express and Socket.IO entry point
+│   │   ├── controllers/
+│   │   │   ├── auth.controller.js         # Register, login, current user, logout
+│   │   │   ├── meeting.controller.js      # Meeting CRUD and history
+│   │   │   ├── notification.controller.js # Email invitation requests
+│   │   │   └── socketManager.js            # WebRTC signaling and chat events
+│   │   ├── middleware/
+│   │   │   ├── auth.js                     # Bearer-token authentication
+│   │   │   └── errorHandler.js             # Centralized API errors
+│   │   ├── models/                         # User and Meeting schemas
+│   │   ├── routes/                         # Auth, meeting, notification routes
+│   │   ├── services/email.service.js       # SendGrid delivery
+│   │   └── utils/AppError.js
+│   ├── .env.example
+│   └── package.json
+│
+├── Frontend/
+│   ├── public/                             # Static assets
+│   ├── src/
+│   │   ├── App.jsx                         # Routes and application shell
+│   │   ├── environment.js                 # Reads VITE_API_URL
+│   │   ├── contexts/                       # Authentication state
+│   │   ├── pages/                          # Landing, auth, home, meeting, history
+│   │   ├── utils/withAuth.jsx              # Protected-page wrapper
+│   │   ├── styles/                         # Meeting component styles
+│   │   └── App.css, index.css
+│   ├── .env.example
+│   └── package.json
+│
+└── README.md
 ```
-Frontend/
-  ├── public/           # Static assets (icons, logos)
-  ├── src/
-  │   ├── pages/        # React pages (Landing, Auth, Home, VideoMeet, History)
-  │   ├── contexts/     # AuthContext for JWT-based authentication
-  │   ├── utils/        # Utility functions (withAuth HOC, API helpers)
-  │   ├── styles/       # CSS modules
-  │   └── App.jsx       # Main React entry
-  ├── index.html        # Entry point
-  ├── vite.config.js    # Vite config
-  └── package.json      # Frontend dependencies
 
-Backend/
-  ├── src/
-  │   ├── controllers/  # Express controllers (auth, socket manager)
-  │   ├── models/       # MongoDB models (User, Meeting)
-  │   ├── routes/       # REST API routes
-  │   └── app.js        # Server entry point
-  └── package.json      # Backend dependencies
+## Requirements
+
+- Node.js 18 or newer
+- npm
+- MongoDB Atlas or a local MongoDB server
+- SendGrid account with a verified sender email
+
+## Environment variables
+
+### Backend
+
+Create `Backend/.env` using `Backend/.env.example`:
+
+```env
+PORT=8000
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/nexomeet
+JWT_SECRET=replace-with-a-long-random-secret
+FRONTEND_URL=http://localhost:5173
+SENDGRID_API_KEY=SG.your-sendgrid-api-key
+SENDGRID_FROM_EMAIL=verified-sender@example.com
 ```
 
----
+`SENDGRID_FROM_EMAIL` must be verified in SendGrid. Never expose `SENDGRID_API_KEY` in the frontend or commit it to Git.
 
-## ⚡ Getting Started  
+### Frontend
 
-### 🔹 Prerequisites  
-- Node.js **v18+**  
-- npm  
-- MongoDB (Atlas or local instance)  
+Create `Frontend/.env` using `Frontend/.env.example`:
 
----
+```env
+VITE_API_URL=http://localhost:8000
+```
 
-### 🔹 Backend Setup  
+The frontend reads this value from `Frontend/src/environment.js`. If it is missing, the app falls back to `http://localhost:8000`.
 
-```sh
+## Run locally
+
+Use two terminals:
+
+```bash
+# Terminal 1
 cd Backend
 npm install
 npm run dev
 ```
-👉 Runs at **http://localhost:8000** by default.  
 
----
+Backend: `http://localhost:8000`
 
-### 🔹 Frontend Setup  
-
-```sh
+```bash
+# Terminal 2
 cd Frontend
 npm install
 npm run dev
 ```
-👉 Runs at **http://localhost:5173** (Vite).  
 
----
+Frontend: `http://localhost:5173`
 
-### 🔹 Build for Production  
+## Useful commands
 
-```sh
-cd Frontend
-npm run build
+```bash
+cd Frontend && npm run lint
+cd Frontend && npm run build
+cd Backend && npm start
 ```
-Build output will be in `Frontend/dist/`.  
 
----
+## API overview
 
-## ⚙️ Environment Configuration  
+All API routes use the `/api/v1` prefix. Authenticated routes require a bearer token.
 
-- **Frontend** – API base URL is managed by `VITE_API_URL` and read in `src/environment.js`.  
-- **Backend** – Update MongoDB connection in `Backend/src/app.js`.  
-- **Auth** – Signed, expiring bearer tokens are used for authentication & session management.
+### Authentication
 
----
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| POST | `/auth/register` | Create an account |
+| POST | `/auth/login` | Login and receive a token |
+| GET | `/auth/me` | Get the logged-in user |
+| POST | `/auth/logout` | Logout the current session |
 
-## 📌 Usage  
+### Meetings
 
-1. Register or Login to your account.  
-2. Create or Join a meeting with a unique code.  
-3. Use video + audio calls with WebRTC.  
-4. Share your screen with the **Screen Share** button.  
-5. Chat with participants in real-time.  
-6. End the meeting – details get saved in **Meeting History**.  
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| GET | `/meetings` | Get paginated meeting history |
+| POST | `/meetings` | Save a meeting in history |
+| GET | `/meetings/:id` | Get one meeting |
+| DELETE | `/meetings/:id` | Delete one meeting |
+| DELETE | `/meetings` | Clear complete history |
 
----
+### Notifications
 
-## 🔍 How It Works  
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| POST | `/notifications/email` | Send a meeting invitation through SendGrid |
 
-### **WebRTC (Web Real-Time Communication)**  
-WebRTC enables **peer-to-peer video and audio streaming** directly between users’ browsers.  
-- Handles **camera/microphone access**  
-- Supports **screen sharing**  
-- Provides **low-latency communication** without external plugins  
+## How meetings work
 
-### **Socket.IO**  
-Socket.IO is used for **real-time signaling** between peers:  
-- Establishes a connection channel between users and the server  
-- Shares **session descriptions (SDP)** and **ICE candidates**  
-- Keeps track of **user joins, leaves, and chat messages**  
+1. The user logs in or registers.
+2. The user creates or enters a meeting code.
+3. Socket.IO exchanges WebRTC offers, answers, and ICE candidates.
+4. WebRTC carries audio/video between participants when possible.
+5. Socket.IO carries meeting events and chat messages.
+6. Ending a meeting closes peer connections, stops local media tracks, clears meeting state, and returns the user to the correct page.
 
-Together, **WebRTC** handles the actual media streaming, while **Socket.IO** manages the signaling and messaging.  
+The app uses a public STUN server for peer discovery. A TURN server may be needed for reliable connections on restrictive networks.
 
----
+## Deploying on Render
 
-## 🛠️ Future Enhancements  
+### Backend web service
 
-- 📱 Mobile app version (React Native).  
-- 📊 Analytics dashboard for meetings.  
-- 🎙️ Background noise suppression.  
-- 📡 Custom TURN server for better connectivity.  
+- Root directory: `Backend`
+- Build command: `npm install`
+- Start command: `npm start`
+- Add all backend variables from the Backend section.
+- Set `FRONTEND_URL` to the deployed frontend URL.
 
----
+### Frontend static site
 
-## 👨‍💻 Author  
+- Root directory: `Frontend`
+- Build command: `npm install && npm run build`
+- Publish directory: `dist`
+- Add this Render environment variable:
 
-**Shubham Singh**  
+```env
+VITE_API_URL=https://your-backend-service.onrender.com
+```
 
-🌐 [Live Demo](https://nexomeet-f.onrender.com)  
+After changing `VITE_API_URL`, trigger a new frontend deploy because Vite injects frontend variables during the build.
+
+## Security and scaling notes
+
+- Keep `.env` files out of Git.
+- Use a strong, unique `JWT_SECRET` in production.
+- Restrict `FRONTEND_URL` to the actual frontend origin.
+- Keep SendGrid credentials only on the backend.
+- Use HTTPS in production for camera, microphone, and screen sharing.
+- Current WebRTC signaling and chat state is held in server memory. Multiple backend instances will eventually need a shared Socket.IO adapter or another shared coordination layer.
+
+## Author
+
+Shubham Singh
