@@ -54,6 +54,12 @@ body {
 .leftPanel { min-width: 0; display: flex; align-items: center; }
 .leftPanel h2 { color: #f2f7ff; font-size: clamp(2rem, 4vw, 4rem); line-height: 1.05; letter-spacing: -.05em; margin: 0 0 20px; }
 .leftPanel p { max-width: 560px; color: #a9bdd5; line-height: 1.7; font-size: 1.05rem; }
+.inviteCard { width: min(100%, 510px); margin-top: 28px; padding: 20px; border: 1px solid rgba(150, 177, 211, .2); border-radius: 18px; background: rgba(16, 34, 58, .72); box-shadow: 0 18px 40px rgba(0,0,0,.18); }
+.inviteCardHeader > div { display: flex; align-items: center; gap: 12px; }
+.inviteCardHeader h3 { margin: 0; color: #f2f7ff; font-size: 1.05rem; }
+.inviteCardHeader p { margin: 2px 0 0; color: #9eb3cd; font-size: .85rem; }
+.inviteIcon { display: grid; place-items: center; width: 38px; height: 38px; color: #fff; border-radius: 11px; background: linear-gradient(135deg, #6b39ff, #1976d2); }
+.inviteCard .MuiTextField-root { background: rgba(255,255,255,.96); border-radius: 9px; }
 .rightPanel { display: flex; align-items: center; justify-content: center; }
 .rightPanel img { width: min(38vw, 440px); filter: drop-shadow(0 20px 35px rgba(0,0,0,.35)); }
 .authPage { background: #07111f; }
@@ -68,6 +74,7 @@ body {
 .authBackButton { align-self: flex-start; margin: 0 0 24px -8px; color: #66758a; font-size: .9rem; font-weight: 700; text-decoration: none; }
 .authBackButton:hover { color: #6b39ff; }
 .historyPage { color: white; }
+.historyHeader { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 22px; }
 
 @media (max-width: 760px) {
   .landingPageContainer nav { padding: 20px; }
@@ -80,9 +87,12 @@ body {
   .navBar h2 { font-size: 1.65rem !important; }
   .meetContainer { min-height: auto; padding: 36px 20px 60px; flex-direction: column; align-items: stretch; }
   .leftPanel h2 { font-size: 2.35rem; }
+  .inviteCard { width: auto; }
   .rightPanel img { width: min(72vw, 320px); }
   .authVisual { display: none !important; }
   .authFormPanel { min-height: 100vh; }
+  .historyHeader { align-items: stretch; flex-direction: column; }
+  .historyHeader .MuiButton-root { width: 100%; }
 }
 
 @media (max-width: 430px) {

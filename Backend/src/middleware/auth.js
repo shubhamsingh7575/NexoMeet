@@ -1,6 +1,7 @@
 import crypto from "crypto";
 
 const secret = process.env.JWT_SECRET || "nexomeet-development-secret";
+const revokedTokens = new Set();
 
 const encode = (value) => Buffer.from(JSON.stringify(value)).toString("base64url");
 
@@ -49,14 +50,24 @@ export const authenticate = (req, res, next) => {
     }
 
     try {
+        if (revokedTokens.has(token)) {
+            return res.status(401).json({ message: "Token has been revoked" });
+        }
         const user = verifyToken(token);
         if (!user) {
             return res.status(401).json({ message: "Invalid or expired token" });
         }
 
         req.user = user;
+        req.token = token;
         next();
     } catch {
         return res.status(401).json({ message: "Invalid token" });
     }
+};
+
+export const revokeToken = (token) => {
+    if (!token) return;
+    revokedTokens.add(token);
+    setTimeout(() => revokedTokens.delete(token), 7 * 24 * 60 * 60 * 1000).unref?.();
 };

@@ -8,7 +8,7 @@ import { AuthContext } from "./AuthContextValue";
 export { AuthContext };
 
 const client = axios.create({
-    baseURL: `${server}/api/v1/users`
+    baseURL: `${server}/api/v1`
 })
 
 client.interceptors.request.use((config) => {
@@ -26,32 +26,62 @@ export const AuthProvider = ({ children }) => {
     const router = useNavigate();
 
     const handleRegister = async (name, username, password) => {
-        const request = await client.post("/register", { name, username, password });
+        const payload = { name, username, password };
+        const request = await client.post("/auth/register", payload);
         if (request.status === httpStatus.CREATED) {
             return request.data.message;
         }
     }
 
     const handleLogin = async (username, password) => {
-        const request = await client.post("/login", { username, password });
+        const payload = { username, password };
+        const request = await client.post("/auth/login", payload);
         if (request.status === httpStatus.OK) {
             localStorage.setItem("token", request.data.token);
             router("/home");
         }
     }
 
+    const handleLogout = async () => {
+        try {
+            if (localStorage.getItem("token")) {
+                await client.post("/auth/logout");
+            }
+        } finally {
+            localStorage.removeItem("token");
+            router("/");
+        }
+    }
+
     const getHistoryOfUser = async () => {
-        const request = await client.get("/get_all_activity");
-        return request.data;
+        const request = await client.get("/meetings");
+        return request.data.data;
     }
 
     const addToUserHistory = async (meetingCode) => {
-        return client.post("/add_to_activity", { meeting_code: meetingCode });
+        return client.post("/meetings", { meeting_code: meetingCode });
+    }
+
+    const deleteMeeting = async (meetingId) => {
+        return client.delete(`/meetings/${meetingId}`);
+    }
+
+    const clearMeetingHistory = async () => {
+        return client.delete("/meetings");
+    }
+
+    const sendMeetingInvite = async (recipientEmail, meetingCode, note) => {
+        return client.post("/notifications/email", {
+            recipientEmail,
+            meetingCode,
+            note
+        });
     }
 
 
     const data = {
-        userData, setUserData, addToUserHistory, getHistoryOfUser, handleRegister, handleLogin
+        userData, setUserData, addToUserHistory, getHistoryOfUser, deleteMeeting,
+        clearMeetingHistory, sendMeetingInvite, handleRegister, handleLogin, handleLogout
     }
 
     return (

@@ -17,7 +17,7 @@ export default function LandingPage() {
                         router("/aljk23")
                     }}>Join as Guest</p>
                     <p onClick={() => {
-                        router("/auth")
+                        router("/auth?mode=signup")
 
                     }}>Register</p>
                     <div onClick={() => {

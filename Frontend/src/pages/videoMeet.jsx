@@ -45,6 +45,19 @@ export default function VideoMeetComponent() {
     let socketIdRef = useRef();
 
     let localVideoref = useRef();
+    const activeStreamsRef = useRef(new Set());
+    const meetingActiveRef = useRef(true);
+
+    const registerStream = (stream) => {
+        activeStreamsRef.current.add(stream);
+        return stream;
+    };
+
+    const stopStream = (stream) => {
+        if (!stream) return;
+        stream.getTracks().forEach((track) => track.stop());
+        activeStreamsRef.current.delete(stream);
+    };
 
 
     let [videoAvailable, setVideoAvailable] = useState(true);
@@ -82,8 +95,12 @@ export default function VideoMeetComponent() {
     // }
 
     useEffect(() => {
+        meetingActiveRef.current = true;
         console.log("HELLO")
         getPermissions();
+        return () => {
+            meetingActiveRef.current = false;
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -106,19 +123,21 @@ export default function VideoMeetComponent() {
 
     const getPermissions = async () => {
         try {
-            const videoPermission = await navigator.mediaDevices.getUserMedia({ video: true });
+            const videoPermission = registerStream(await navigator.mediaDevices.getUserMedia({ video: true }));
             if (videoPermission) {
                 setVideoAvailable(true);
                 console.log('Video permission granted');
+                stopStream(videoPermission);
             } else {
                 setVideoAvailable(false);
                 console.log('Video permission denied');
             }
 
-            const audioPermission = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const audioPermission = registerStream(await navigator.mediaDevices.getUserMedia({ audio: true }));
             if (audioPermission) {
                 setAudioAvailable(true);
                 console.log('Audio permission granted');
+                stopStream(audioPermission);
             } else {
                 setAudioAvailable(false);
                 console.log('Audio permission denied');
@@ -131,7 +150,12 @@ export default function VideoMeetComponent() {
             }
 
             if (videoAvailable || audioAvailable) {
-                const userMediaStream = await navigator.mediaDevices.getUserMedia({ video: videoAvailable, audio: audioAvailable });
+                if (!meetingActiveRef.current) return;
+                const userMediaStream = registerStream(await navigator.mediaDevices.getUserMedia({ video: videoAvailable, audio: audioAvailable }));
+                if (!meetingActiveRef.current) {
+                    stopStream(userMediaStream);
+                    return;
+                }
                 if (userMediaStream) {
                     window.localStream = userMediaStream;
                     if (localVideoref.current) {
@@ -162,9 +186,12 @@ export default function VideoMeetComponent() {
 
 
     let getUserMediaSuccess = (stream) => {
-        try {
-            window.localStream.getTracks().forEach(track => track.stop())
-        } catch (e) { console.log(e) }
+        stream = registerStream(stream);
+        if (!meetingActiveRef.current) {
+            stopStream(stream);
+            return;
+        }
+        stopStream(window.localStream);
 
         window.localStream = stream
         localVideoref.current.srcObject = stream
@@ -231,9 +258,12 @@ export default function VideoMeetComponent() {
 
     let getDislayMediaSuccess = (stream) => {
         console.log("HERE")
-        try {
-            window.localStream.getTracks().forEach(track => track.stop())
-        } catch (e) { console.log(e) }
+        stream = registerStream(stream);
+        if (!meetingActiveRef.current) {
+            stopStream(stream);
+            return;
+        }
+        stopStream(window.localStream);
 
         window.localStream = stream
         localVideoref.current.srcObject = stream
@@ -428,13 +458,13 @@ export default function VideoMeetComponent() {
         setScreen(!screen);
     }
 
-    let handleEndCall = () => {
+    const cleanupMeeting = () => {
         try {
-            if (window.localStream) {
-                window.localStream.getTracks().forEach(track => track.stop());
-                window.localStream = null;
-            }
+            activeStreamsRef.current.forEach((stream) => stopStream(stream));
+            activeStreamsRef.current.clear();
+            window.localStream = null;
             if (localVideoref.current) {
+                localVideoref.current.pause();
                 localVideoref.current.srcObject = null;
             }
         } catch { /* local stream may already be stopped */ }
@@ -444,6 +474,15 @@ export default function VideoMeetComponent() {
         videoRef.current = [];
         setVideos([]);
         socketRef.current?.disconnect();
+    };
+
+    useEffect(() => () => {
+        cleanupMeeting();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    let handleEndCall = () => {
+        cleanupMeeting();
         navigate(localStorage.getItem("token") ? "/home" : "/");
     }
 

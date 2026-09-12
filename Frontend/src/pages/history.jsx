@@ -7,9 +7,10 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
 import { Button } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 function History() {
-    const { getHistoryOfUser } = useContext(AuthContext);
+    const { getHistoryOfUser, deleteMeeting, clearMeetingHistory } = useContext(AuthContext);
     const [meetings, setMeetings] = useState([]);
     const routeTo = useNavigate();
 
@@ -24,6 +25,7 @@ function History() {
         };
         fetchHistory();
 
+        // Fetch history once when the page mounts.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -44,6 +46,20 @@ function History() {
         return `${hours}:${minutes}:${seconds}`;
     };
 
+    const handleDeleteMeeting = async (meetingId) => {
+        if (!window.confirm("Delete this meeting from history?")) return;
+
+        await deleteMeeting(meetingId);
+        setMeetings((current) => current.filter((meeting) => meeting._id !== meetingId));
+    };
+
+    const handleClearHistory = async () => {
+        if (!meetings.length || !window.confirm("Clear your complete meeting history?")) return;
+
+        await clearMeetingHistory();
+        setMeetings([]);
+    };
+
 
     return (
         <div className="historyPage" style={{
@@ -51,21 +67,23 @@ function History() {
             background: "#0a192f",
             padding: "30px"
         }}>
-            {/* Home Button */}
-            <Button
-                onClick={() => routeTo("/home")}
-                startIcon={<HomeIcon />}
-                style={{
-                    color: "white",
-                    backgroundColor: "#0077b6",
-                    marginBottom: "20px",
-                    padding: "8px 16px",
-                    textTransform: "none",
-                    borderRadius: "8px"
-                }}
-            >
-                Home
-            </Button>
+            <div className="historyHeader">
+                <Button
+                    onClick={() => routeTo("/home")}
+                    startIcon={<HomeIcon />}
+                    style={{ color: "white", backgroundColor: "#0077b6", padding: "8px 16px", textTransform: "none", borderRadius: "8px" }}
+                >
+                    Home
+                </Button>
+                <Button
+                    onClick={handleClearHistory}
+                    disabled={!meetings.length}
+                    startIcon={<DeleteOutlineIcon />}
+                    style={{ color: "white", backgroundColor: meetings.length ? "#d64545" : "#536174", padding: "8px 16px", textTransform: "none", borderRadius: "8px" }}
+                >
+                    Clear history
+                </Button>
+            </div>
 
 
             {/* History List */}
@@ -79,7 +97,7 @@ function History() {
                 {meetings.length !== 0 ? (
                     meetings.map((e, i) => (
                         <Card
-                            key={i}
+                            key={e._id || i}
                             variant="outlined"
                             style={{
                                 backgroundColor: "#1b263b",
@@ -98,7 +116,14 @@ function History() {
                                 <Typography sx={{ fontSize: 14 }}>
                                     Time: {formatTime(e.date)}
                                 </Typography>
-
+                                <Button
+                                    onClick={() => handleDeleteMeeting(e._id)}
+                                    startIcon={<DeleteOutlineIcon />}
+                                    size="small"
+                                    sx={{ mt: 2, color: "#ff9d9d", textTransform: "none" }}
+                                >
+                                    Delete
+                                </Button>
                             </CardContent>
                         </Card>
                     ))

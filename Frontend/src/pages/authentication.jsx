@@ -13,19 +13,20 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AuthContext } from '../contexts/AuthContext';
 import { Snackbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 const defaultTheme = createTheme();
 
 export default function Authentication() {
+  const [searchParams] = useSearchParams();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
   const [message, setMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState('');
-  const [formState, setFormState] = React.useState(0); // 0 = Sign In, 1 = Sign Up
+  const [formState, setFormState] = React.useState(() => searchParams.get('mode') === 'signup' ? 1 : 0); // 0 = Sign In, 1 = Sign Up
   const [bgImage, setBgImage] = React.useState('');
 
   // Fetch random Unsplash image once when component mounts
