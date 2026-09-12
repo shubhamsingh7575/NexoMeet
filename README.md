@@ -103,7 +103,7 @@ Build output will be in `Frontend/dist/`.
 
 ## ⚙️ Environment Configuration  
 
-- **Frontend** – API base URL is managed in `src/environment.js`.  
+- **Frontend** – API base URL is managed by `VITE_API_URL` and read in `src/environment.js`.  
 - **Backend** – Update MongoDB connection in `Backend/src/app.js`.  
 - **Auth** – Signed, expiring bearer tokens are used for authentication & session management.
 
