@@ -25,6 +25,18 @@ const peerConfigConnections = {
     ]
 }
 
+const RemoteVideo = React.memo(function RemoteVideo({ stream, socketId }) {
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        if (videoRef.current && stream && videoRef.current.srcObject !== stream) {
+            videoRef.current.srcObject = stream;
+        }
+    }, [stream]);
+
+    return <video data-socket={socketId} ref={videoRef} autoPlay playsInline />;
+});
+
 export default function VideoMeetComponent() {
 
     const navigate = useNavigate();
@@ -288,17 +300,22 @@ export default function VideoMeetComponent() {
         socketRef.current.on('signal', gotMessageFromServer)
 
         socketRef.current.on('connect', () => {
-            socketRef.current.emit('join-call', window.location.href)
             socketIdRef.current = socketRef.current.id
+            socketRef.current.emit('join-call', window.location.href)
 
             socketRef.current.on('chat-message', addMessage)
 
             socketRef.current.on('user-left', (id) => {
+                connections[id]?.close();
+                delete connections[id];
                 setVideos((videos) => videos.filter((video) => video.socketId !== id))
             })
 
             socketRef.current.on('user-joined', (id, clients) => {
                 clients.forEach((socketListId) => {
+
+                    // Never create a peer connection or tile for our own socket.
+                    if (socketListId === socketIdRef.current) return;
 
                     connections[socketListId] = new RTCPeerConnection(peerConfigConnections)
                     // Wait for their ice candidate       
@@ -413,9 +430,20 @@ export default function VideoMeetComponent() {
 
     let handleEndCall = () => {
         try {
-            let tracks = localVideoref.current.srcObject.getTracks()
-            tracks.forEach(track => track.stop())
+            if (window.localStream) {
+                window.localStream.getTracks().forEach(track => track.stop());
+                window.localStream = null;
+            }
+            if (localVideoref.current) {
+                localVideoref.current.srcObject = null;
+            }
         } catch { /* local stream may already be stopped */ }
+
+        Object.values(connections).forEach((connection) => connection.close());
+        connections = {};
+        videoRef.current = [];
+        setVideos([]);
+        socketRef.current?.disconnect();
         navigate(localStorage.getItem("token") ? "/home" : "/");
     }
 
@@ -568,17 +596,7 @@ export default function VideoMeetComponent() {
                     <div className={styles.conferenceView}>
                         {videos.map((video) => (
                             <div key={video.socketId}>
-                                <video
-
-                                    data-socket={video.socketId}
-                                    ref={ref => {
-                                        if (ref && video.stream) {
-                                            ref.srcObject = video.stream;
-                                        }
-                                    }}
-                                    autoPlay
-                                >
-                                </video>
+                                <RemoteVideo stream={video.stream} socketId={video.socketId} />
                             </div>
 
                         ))}
