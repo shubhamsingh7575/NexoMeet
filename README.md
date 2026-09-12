@@ -1,12 +1,12 @@
-# NexoMeet
+# 🎥 NexoMeet
 
 NexoMeet is a full-stack video meeting application for creating and joining meetings with a meeting code. It includes real-time video/audio communication, screen sharing, in-meeting chat, authentication, meeting history, and email invitations through SendGrid.
 
-## Live demo
+## 🌐 Live demo
 
 [Open NexoMeet](https://nexomeet-f.onrender.com/)
 
-## Features
+## ✨ Features
 
 - User registration, login, current-user session check, and logout
 - JWT-based bearer-token authentication
@@ -19,16 +19,16 @@ NexoMeet is a full-stack video meeting application for creating and joining meet
 - Send meeting invitations by email through SendGrid
 - Responsive React and Material UI interface
 
-## Tech stack
+## 🛠️ Tech stack
 
-### Frontend
+### 💻 Frontend
 
 - React 19, Vite, React Router
 - Material UI and Axios
 - Socket.IO Client
 - Browser WebRTC APIs
 
-### Backend
+### ⚙️ Backend
 
 - Node.js and Express 5
 - MongoDB with Mongoose
@@ -36,7 +36,7 @@ NexoMeet is a full-stack video meeting application for creating and joining meet
 - JWT and bcrypt authentication
 - SendGrid Web API for email invitations
 
-## Project structure
+## 📂 Project structure
 
 ```text
 NexoMeet_project/
@@ -74,16 +74,16 @@ NexoMeet_project/
 └── README.md
 ```
 
-## Requirements
+## 📋 Requirements
 
 - Node.js 18 or newer
 - npm
 - MongoDB Atlas or a local MongoDB server
 - SendGrid account with a verified sender email
 
-## Environment variables
+## 🔐 Environment variables
 
-### Backend
+### ⚙️ Backend
 
 Create `Backend/.env` using `Backend/.env.example`:
 
@@ -98,7 +98,7 @@ SENDGRID_FROM_EMAIL=verified-sender@example.com
 
 `SENDGRID_FROM_EMAIL` must be verified in SendGrid. Never expose `SENDGRID_API_KEY` in the frontend or commit it to Git.
 
-### Frontend
+### 💻 Frontend
 
 Create `Frontend/.env` using `Frontend/.env.example`:
 
@@ -108,7 +108,7 @@ VITE_API_URL=http://localhost:8000
 
 The frontend reads this value from `Frontend/src/environment.js`. If it is missing, the app falls back to `http://localhost:8000`.
 
-## Run locally
+## 🚀 Run locally
 
 Use two terminals:
 
@@ -130,7 +130,7 @@ npm run dev
 
 Frontend: `http://localhost:5173`
 
-## Useful commands
+## 🧰 Useful commands
 
 ```bash
 cd Frontend && npm run lint
@@ -138,11 +138,11 @@ cd Frontend && npm run build
 cd Backend && npm start
 ```
 
-## API overview
+## 🔌 API overview
 
 All API routes use the `/api/v1` prefix. Authenticated routes require a bearer token.
 
-### Authentication
+### 🔑 Authentication
 
 | Method | Endpoint | Purpose |
 | --- | --- | --- |
@@ -151,7 +151,7 @@ All API routes use the `/api/v1` prefix. Authenticated routes require a bearer t
 | GET | `/auth/me` | Get the logged-in user |
 | POST | `/auth/logout` | Logout the current session |
 
-### Meetings
+### 📹 Meetings
 
 | Method | Endpoint | Purpose |
 | --- | --- | --- |
@@ -161,13 +161,13 @@ All API routes use the `/api/v1` prefix. Authenticated routes require a bearer t
 | DELETE | `/meetings/:id` | Delete one meeting |
 | DELETE | `/meetings` | Clear complete history |
 
-### Notifications
+### 📧 Notifications
 
 | Method | Endpoint | Purpose |
 | --- | --- | --- |
 | POST | `/notifications/email` | Send a meeting invitation through SendGrid |
 
-## How meetings work
+## 🔄 How meetings work
 
 1. The user logs in or registers.
 2. The user creates or enters a meeting code.
@@ -178,9 +178,9 @@ All API routes use the `/api/v1` prefix. Authenticated routes require a bearer t
 
 The app uses a public STUN server for peer discovery. A TURN server may be needed for reliable connections on restrictive networks.
 
-## Deploying on Render
+## ☁️ Deploying on Render
 
-### Backend web service
+### ⚙️ Backend web service
 
 - Root directory: `Backend`
 - Build command: `npm install`
@@ -188,7 +188,7 @@ The app uses a public STUN server for peer discovery. A TURN server may be neede
 - Add all backend variables from the Backend section.
 - Set `FRONTEND_URL` to the deployed frontend URL.
 
-### Frontend static site
+### 💻 Frontend static site
 
 - Root directory: `Frontend`
 - Build command: `npm install && npm run build`
@@ -201,7 +201,7 @@ VITE_API_URL=https://your-backend-service.onrender.com
 
 After changing `VITE_API_URL`, trigger a new frontend deploy because Vite injects frontend variables during the build.
 
-## Security and scaling notes
+## 🛡️ Security and scaling notes
 
 - Keep `.env` files out of Git.
 - Use a strong, unique `JWT_SECRET` in production.
@@ -210,6 +210,6 @@ After changing `VITE_API_URL`, trigger a new frontend deploy because Vite inject
 - Use HTTPS in production for camera, microphone, and screen sharing.
 - Current WebRTC signaling and chat state is held in server memory. Multiple backend instances will eventually need a shared Socket.IO adapter or another shared coordination layer.
 
-## Author
+## 👨‍💻 Author
 
 Shubham Singh
