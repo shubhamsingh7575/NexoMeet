@@ -9,7 +9,7 @@ NexoMeet is a full-stack video meeting application for creating and joining meet
 ## ✨ Features
 
 - User registration, login, current-user session check, and logout
-- JWT-based bearer-token authentication
+- JWT-based bearer-token authentication 
 - Create or join meetings with a meeting code
 - WebRTC video and audio calls
 - Camera, microphone, and screen-share controls
